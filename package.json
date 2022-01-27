@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/helblingjoel/stegosaurus/issues"
   },
-  "homepage": "https://github.com/helblingjoel/stegosaurus#readme"
+  "homepage": "https://github.com/helblingjoel/stegosaurus#readme",
+  "dependencies": {
+    "any-steganography": "^1.1.2"
+  }
 }
