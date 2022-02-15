@@ -19,6 +19,7 @@ function findClosestFlagpost(value) {
 
 // Modifies the LSB of a 2 digit hex string to nearest flagpost
 function modifyLSB(hexString) {
+  hexString = ("0"+hexString).slice(-2) // makes sure string is always 2 digits
   splitHex = hexString.split('')
   splitHex[1] = findClosestFlagpost(splitHex[1])
   return splitHex.join("")
