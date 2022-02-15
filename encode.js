@@ -37,8 +37,8 @@ function modifyPixelData(pxData) {
         const blue = parseInt(modifyLSB(pixel.get(2).toHex()), 16)
         const alpha = pixel.get(3)
         const channelsArr = [red, green, blue, alpha]
+        console.log(channelsArr)
         channelsArr.forEach((intensity, index) => {
-          console.log(intensity)
           pxData.set(rowIndex, valueIndex, index, intensity)
         })
       }
