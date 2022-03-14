@@ -105,3 +105,5 @@ dist
 
 # ouput files
 out.png
+out/**
+!out/.gitkeep
