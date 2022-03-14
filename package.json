@@ -1,8 +1,5 @@
 {
-  "dependencies": {
-    "bwip-js": "^3.0.4",
-    "get-pixels": "^3.3.3",
-    "image-size": "^1.0.1",
-    "jsqr": "^1.4.0"
-  }
+	"dependencies": {
+		"barcode-js": "^13.8.3085"
+	}
 }

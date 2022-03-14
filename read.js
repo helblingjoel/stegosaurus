@@ -1,22 +1,19 @@
-const jsQR = require("jsqr");
-const getPixels = require("get-pixels");
-const size = require("image-size");
+const barcodeXpress = require("barcode-js");
 
-
-function readQR(data, width, height){
-    const code = jsQR(data, width, height);
-    console.log(code);
-    if (code)
-        console.log(code.binaryData, code.data);
+async function read() {
+	const results = await barcodeXpress.analyze("in-bordered.png", {
+		type: barcodeXpress.BarcodeType.MICROQRCODE,
+	});
+	console.log(results[0]);
+	return {
+		raw: results[0].valueRaw,
+		text: results[0].value.split(" UNLICENSED accusoft.com")[0],
+	};
 }
 
-getPixels(filepath = "in-bordered.png", (err, pixels) => {
-        if (err){
-            console.log(`An error occured:\n${err}`);
-            return;
-        }
+async function main() {
+	const values = await read();
+	console.log(values);
+}
 
-        const dimension = size.imageSize(filepath)
-        readQR(pixels.data, dimension.width, dimension.height);
-    }
-);
+main();
