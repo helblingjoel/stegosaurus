@@ -11,6 +11,15 @@ async function read(filepath) {
 	return results[0].valueRaw;
 }
 
+const bufferToString = (buffer) => {
+	let string = "";
+	for (let buf of buffer.values()) {
+		buf = parseInt(buf, "hex").toString(16).padStart(2, "0");
+		string += buf;
+	}
+	return string;
+};
+
 async function main() {
 	let errors = 0;
 	let success = 0;
@@ -26,9 +35,7 @@ async function main() {
 			const expectedResult = file.split(".")[0];
 
 			read(`./out/${file}`).then((outputBuffer) => {
-				const outputString = BigInt("0x" + outputBuffer.toString("hex"))
-					.toString(16)
-					.substring(0, expectedResult.length);
+				const outputString = bufferToString(outputBuffer);
 
 				for (let i = 0; i < expectedResult.length; i++) {
 					if (i === 0) {
@@ -39,6 +46,9 @@ async function main() {
 					count++;
 
 					if (expectedResult[i] !== outputString[i]) {
+						if (i === 0) {
+						}
+
 						errors++;
 						report[expectedResult].push({
 							position: i,
