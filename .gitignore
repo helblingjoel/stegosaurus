@@ -103,5 +103,7 @@ dist
 # TernJS port file
 .tern-port
 
-#run output
+# ouput files
 out.png
+out/**
+!out/.gitkeep

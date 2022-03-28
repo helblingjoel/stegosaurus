@@ -18,6 +18,8 @@
   "homepage": "https://github.com/helblingjoel/stegosaurus#readme",
   "dependencies": {
     "get-pixels": "^3.3.3",
-    "save-pixels": "^2.3.6"
+    "save-pixels": "^2.3.6",
+    "bwip-js": "^3.0.4",
+    "uuid": "^8.3.2"
   }
 }
