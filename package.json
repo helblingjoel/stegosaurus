@@ -1,5 +1,26 @@
 {
-	"dependencies": {
-		"barcode-js": "^13.8.3085"
-	}
+  "name": "stegosaurus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helblingjoel/stegosaurus.git"
+  },
+  "author": "Spatchy, Joel Helbling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helblingjoel/stegosaurus/issues"
+  },
+  "homepage": "https://github.com/helblingjoel/stegosaurus#readme",
+  "dependencies": {
+    "get-pixels": "^3.3.3",
+    "save-pixels": "^2.3.6",
+    "bwip-js": "^3.0.4",
+    "uuid": "^8.3.2",
+    "barcode-js": "^13.8.3085"
+  }
 }

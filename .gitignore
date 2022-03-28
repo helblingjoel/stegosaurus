@@ -103,4 +103,11 @@ dist
 # TernJS port file
 .tern-port
 
+# MacOs Index files
 .DS_Store
+
+# ouput files
+out.png
+out/**
+!out/.gitkeep
+
