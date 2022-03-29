@@ -1,7 +1,7 @@
 const bwipjs = require('bwip-js');
 const fs = require("fs")
 const { v4: uuidv4 } = require('uuid')
-//const encode = require("encode.js")
+const encoder = require("./encode.js")
 
 
 // Converts hex to bwip's ^NNN syntax - NNN is a 3 digit decimal number representation of a byte (i.e. a Windows-1252 char code)
@@ -23,7 +23,8 @@ function doGenerate(uuid) {
       if (err) {
         throw err
       } else {
-        fs.writeFileSync("out/" + uuid + ".png", png)
+        //fs.writeFileSync("out/" + uuid + ".png", png)
+        encoder.encodeQR(png, fs.readFileSync("example2.png"))
         console.log("success")
       }
     });
