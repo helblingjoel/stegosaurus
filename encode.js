@@ -40,20 +40,28 @@ function modifyLSB(hexString) {
 
 function modifyPixelData(imagePixels, qrPixels) {
   const qrAlphaLayer = qrPixels.pick(null, null, 3)
-  for(var rowIndex = 0; rowIndex < qrAlphaLayer.shape[0]; rowIndex++) {
-    for(var valueIndex = 0; valueIndex < qrAlphaLayer.shape[1]; valueIndex++) {
-      console.log("got a 255")
-      if(qrAlphaLayer.get(valueIndex, rowIndex) === 255) {
-        const pixel = imagePixels.pick(valueIndex, rowIndex, null)
-        const red = parseInt(modifyLSB(pixel.get(0).toHex()), 16)
-        const green = parseInt(modifyLSB(pixel.get(1).toHex()), 16)
-        const blue = parseInt(modifyLSB(pixel.get(2).toHex()), 16)
-        const alpha = pixel.get(3)
-        const channelsArr = [red, green, blue, alpha]
-        console.log(channelsArr)
-        channelsArr.forEach((intensity, index) => {
-          imagePixels.set(rowIndex, valueIndex, index, intensity)
-        })
+
+  const imageHeightInQrUnits = Math.floor(imagePixels.shape[0] / qrPixels.shape[0])
+  const imageWidthInQrUnits = Math.floor(imagePixels.shape[1] / qrPixels.shape[1])
+
+
+  for(var qrUnitRowIndex = 0; qrUnitRowIndex < imageHeightInQrUnits; qrUnitRowIndex++) {
+    for(var qrUnitValueIndex = 0; qrUnitValueIndex < imageWidthInQrUnits; qrUnitValueIndex++) {
+      for(var rowIndex = 0; rowIndex < qrAlphaLayer.shape[0]; rowIndex++) {
+        for(var valueIndex = 0; valueIndex < qrAlphaLayer.shape[1]; valueIndex++) {
+          if(qrAlphaLayer.get(valueIndex, rowIndex) === 255) {
+            const pixel = imagePixels.pick(valueIndex + (qrUnitValueIndex * qrPixels.shape[1]), rowIndex + (qrUnitRowIndex * qrPixels.shape[0]), null)
+            const red = parseInt(modifyLSB(pixel.get(0).toHex()), 16)
+            const green = parseInt(modifyLSB(pixel.get(1).toHex()), 16)
+            const blue = parseInt(modifyLSB(pixel.get(2).toHex()), 16)
+            const alpha = pixel.get(3)
+            const channelsArr = [red, green, blue, alpha]
+            console.log(channelsArr)
+            channelsArr.forEach((intensity, index) => {
+              imagePixels.set(valueIndex + (qrUnitValueIndex * qrPixels.shape[1]), rowIndex + (qrUnitRowIndex * qrPixels.shape[0]), index, intensity)
+            })
+          }
+        }
       }
     }
   }
