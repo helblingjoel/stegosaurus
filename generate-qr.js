@@ -16,6 +16,8 @@ function doGenerate(uuid) {
     text: hexToNNN(uuid),
     scale: 1,
     eclevel: "M",
+    paddingheight: 3,
+    paddingwidth: 3,
     parse: true // Tell bwip to parse NNN escape codes
     }, function (err, png) {
       console.log(uuid)
