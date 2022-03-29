@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid')
 //const encode = require("encode.js")
 
 
-// Converts hex to bwip's ^NNN syntax - NNN is a 3 digit decimal number representation of a byte (i.e. an ascii char code)
+// Converts hex to bwip's ^NNN syntax - NNN is a 3 digit decimal number representation of a byte (i.e. a Windows-1252 char code)
 function hexToNNN(data) {
   return data.match(/.{1,2}/g).map(i => "^" + parseInt(i, 16).toString(10).padStart(3, "0")).join("")
   
