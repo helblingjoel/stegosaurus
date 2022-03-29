@@ -7,6 +7,19 @@ Number.prototype.toHex = function() {
   return this.toString(16)
 }
 
+function getPixelsPromise(buffer) {
+  return new Promise((resolve, reject) => {
+    getPixels(buffer, "image/png", (err, pxData) => {
+      if(err) {
+        reject(err)
+      } else {
+        resolve(pxData)
+      }
+    })
+  })
+}
+
+
 function findClosestFlagpost(value) {
   const flagposts = [2, 7, "b", "e"]
   decValue = parseInt(value, 16)
@@ -25,14 +38,13 @@ function modifyLSB(hexString) {
   return splitHex.join("")
 }
 
-function modifyPixelData(pxData) {
-  // Will simply encode a hollow 5x5 square into the top left corner using flagpost encoding
-  const exampleToEncode = [[1,1,1,1,1], [1,0,0,0,1], [1,0,0,0,1], [1,0,0,0,1], [1,1,1,1,1]]
-
-  exampleToEncode.forEach((row, rowIndex) => {
-    row.forEach((value, valueIndex) => {
-      if(value === 1) {
-        const pixel = pxData.pick(valueIndex, rowIndex, null)
+function modifyPixelData(imagePixels, qrPixels) {
+  const qrAlphaLayer = qrPixels.pick(null, null, 3)
+  for(var rowIndex = 0; rowIndex < qrAlphaLayer.shape[0]; rowIndex++) {
+    for(var valueIndex = 0; valueIndex < qrAlphaLayer.shape[1]; valueIndex++) {
+      console.log("got a 255")
+      if(qrAlphaLayer.get(valueIndex, rowIndex) === 255) {
+        const pixel = imagePixels.pick(valueIndex, rowIndex, null)
         const red = parseInt(modifyLSB(pixel.get(0).toHex()), 16)
         const green = parseInt(modifyLSB(pixel.get(1).toHex()), 16)
         const blue = parseInt(modifyLSB(pixel.get(2).toHex()), 16)
@@ -40,24 +52,29 @@ function modifyPixelData(pxData) {
         const channelsArr = [red, green, blue, alpha]
         console.log(channelsArr)
         channelsArr.forEach((intensity, index) => {
-          pxData.set(rowIndex, valueIndex, index, intensity)
+          imagePixels.set(rowIndex, valueIndex, index, intensity)
         })
       }
-    })
-  })
-  saveDataToImage(pxData)
+    }
+  }
+  saveDataToImage(imagePixels)
 }
 
 function saveDataToImage(pxData) {
-  const outputFile = fs.createWriteStream("out.png");
+  const outputFile = fs.createWriteStream("out/encoded.png");
   savePixels(pxData, "png").pipe(outputFile)
 }
 
-getPixels("example.png", function(err, pixels) {
-  if(err) {
-    console.log("Bad image path")
-    return
-  }
-  console.log(`got pixels, w: ${pixels.shape.slice()[0]}px h: ${pixels.shape.slice()[1]}px`)
-  modifyPixelData(pixels)
-})
+
+async function encodeQR(qrBuffer, imageBuffer) {
+  const [qrPixels, imagePixels] = await Promise.all([
+    getPixelsPromise(qrBuffer), 
+    getPixelsPromise(imageBuffer)
+  ])
+
+  modifyPixelData(imagePixels, qrPixels)
+}
+
+module.exports = {
+  encodeQR
+}
