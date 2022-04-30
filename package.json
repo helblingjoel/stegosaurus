@@ -17,10 +17,13 @@
   },
   "homepage": "https://github.com/helblingjoel/stegosaurus#readme",
   "dependencies": {
+    "barcode-js": "^13.8.3085",
+    "bwip-js": "^3.0.4",
     "get-pixels": "^3.3.3",
     "save-pixels": "^2.3.6",
-    "bwip-js": "^3.0.4",
-    "uuid": "^8.3.2",
-    "barcode-js": "^13.8.3085"
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^28.0.3"
   }
 }
