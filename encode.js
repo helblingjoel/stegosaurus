@@ -84,5 +84,6 @@ async function encodeQR(qrBuffer, imageBuffer) {
 }
 
 module.exports = {
-  encodeQR
+  encodeQR,
+  findClosestFlagpost
 }
